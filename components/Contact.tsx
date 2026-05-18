@@ -49,8 +49,14 @@ const socialLinks = [
   { icon: MessageSquare, href: siteConfig.social.whatsapp, label: "WhatsApp" },
 ];
 
+// Computed once at module load — does not need to be inside the component
+const emailjsConfigured =
+  !!siteConfig.emailjs.serviceId &&
+  !!siteConfig.emailjs.templateId &&
+  !!siteConfig.emailjs.publicKey;
+
 export default function Contact() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [formState, setFormState] = useState<FormState>("idle");
@@ -59,11 +65,6 @@ export default function Contact() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-
-  const emailjsConfigured =
-    !!siteConfig.emailjs.serviceId &&
-    !!siteConfig.emailjs.templateId &&
-    !!siteConfig.emailjs.publicKey;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

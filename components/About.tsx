@@ -1,8 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Monitor, Server, Smartphone, Palette, Database, Cloud, Code, Globe, Shield, Zap, Github, Linkedin } from "lucide-react";
+import {
+  Monitor, Server, Smartphone, Palette, Database, Cloud,
+  Code, Globe, Shield, Zap, Github, Linkedin,
+} from "lucide-react";
 import { siteConfig } from "@/lib/data";
 
 const iconMap: Record<string, React.ElementType> = {
@@ -10,45 +13,63 @@ const iconMap: Record<string, React.ElementType> = {
   Code, Globe, Shield, Zap,
 };
 
+// Real counting animation — counts from 0 to target with ease-out
 function AnimatedCounter({ value, delay }: { value: string; delay: number }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
+  const numericTarget = parseInt(value.replace(/\D/g, ""), 10) || 0;
+  const suffix = value.replace(/[0-9]/g, "");
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView || numericTarget === 0) return;
+    let raf: number;
+    const duration = 1400;
+    const startTime = performance.now();
+    const step = (now: number) => {
+      const elapsed  = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Cubic ease-out
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * numericTarget));
+      if (progress < 1) raf = requestAnimationFrame(step);
+    };
+    // Start after the entry animation delay
+    const timeout = setTimeout(() => { raf = requestAnimationFrame(step); }, delay * 1000);
+    return () => { clearTimeout(timeout); cancelAnimationFrame(raf); };
+  }, [inView, numericTarget, delay]);
 
   return (
-    <div ref={ref}>
-      <motion.span
-        initial={{ opacity: 0, y: 8 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay, ease: "easeOut" }}
-        className="text-3xl lg:text-4xl font-black gradient-text"
-      >
-        {value}
-      </motion.span>
-    </div>
+    <span
+      ref={ref}
+      className="text-3xl lg:text-4xl font-black gradient-text tabular-nums"
+    >
+      {count}{suffix}
+    </span>
   );
 }
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden:  { opacity: 0, y: 40 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.6, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] as const },
   }),
 };
 
 export default function About() {
-  const ref = useRef(null);
+  const ref    = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <section id="sobre" className="section-padding relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-slate-50/80 dark:bg-[#0a0a1a]/50" />
-      <div className="absolute inset-0 grid-pattern opacity-30 dark:opacity-20" />
+      <div className="absolute inset-0 bg-slate-50/80 dark:bg-[#0a0a1a]/50" aria-hidden="true" />
+      <div className="absolute inset-0 grid-pattern opacity-30 dark:opacity-20" aria-hidden="true" />
 
       <div className="container-custom relative z-10" ref={ref}>
-        {/* Section Header */}
+        {/* ── Header ─────────────────────────────────────────────── */}
         <motion.div
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
@@ -65,52 +86,47 @@ export default function About() {
           </motion.p>
         </motion.div>
 
+        {/* ── Bio + Stats ─────────────────────────────────────────── */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
-          {/* Left — Bio */}
-          <motion.div
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            variants={fadeInUp}
-            custom={0}
-          >
-            <div className="relative">
-              {/* Decorative block */}
-              <div className="absolute -left-4 top-0 w-1 h-16 bg-gradient-to-b from-violet-500 to-cyan-500 rounded-full" />
-              <p className="text-slate-700 dark:text-slate-300 text-lg leading-relaxed mb-6 pl-4">
+          {/* Bio */}
+          <motion.div initial="hidden" animate={inView ? "visible" : "hidden"} variants={fadeInUp} custom={0}>
+            {/*
+              Accent bar uses border-l (no absolute positioning) so it
+              never overflows on small screens.
+            */}
+            <div className="relative pl-5 border-l-2 border-violet-500 mb-6">
+              <p className="text-slate-700 dark:text-slate-300 text-lg leading-relaxed">
                 {siteConfig.bio}
               </p>
             </div>
             <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
-              Trabalho com uma abordagem centrada no usuário, garantindo que cada projeto não apenas funcione perfeitamente,
-              mas também ofereça uma experiência visual e interativa excepcional.
+              Trabalho com uma abordagem centrada no usuário, garantindo que cada projeto não apenas
+              funcione perfeitamente, mas ofereça uma experiência visual e interativa excepcional.
             </p>
 
-            {/* Social Links */}
+            {/* Social buttons */}
             <div className="flex gap-3">
-              <motion.a
-                href={siteConfig.social.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl glass-card text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400/40 transition-all duration-200"
-              >
-                <Github size={16} /> GitHub
-              </motion.a>
-              <motion.a
-                href={siteConfig.social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl glass-card text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400/40 transition-all duration-200"
-              >
-                <Linkedin size={16} /> LinkedIn
-              </motion.a>
+              {[
+                { href: siteConfig.social.github,   icon: Github,   label: "GitHub"   },
+                { href: siteConfig.social.linkedin,  icon: Linkedin, label: "LinkedIn" },
+              ].map(({ href, icon: Icon, label }) => (
+                <motion.a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl glass-card text-slate-700 dark:text-slate-300 text-sm font-medium hover:text-violet-600 dark:hover:text-violet-400 hover:border-violet-400/40 transition-all duration-200"
+                >
+                  <Icon size={16} /> {label}
+                </motion.a>
+              ))}
             </div>
           </motion.div>
 
-          {/* Right — Stats */}
+          {/* Stats — with real counting animation */}
           <motion.div
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
@@ -121,31 +137,24 @@ export default function About() {
                 key={stat.label}
                 variants={fadeInUp}
                 custom={i * 0.15}
-                className="glass-card rounded-2xl p-6 text-center group hover:border-violet-400/50 dark:hover:border-violet-400/40 transition-all duration-300 hover:-translate-y-1"
+                whileHover={{ y: -4 }}
+                className="glass-card rounded-2xl p-6 text-center hover:border-violet-400/50 dark:hover:border-violet-400/40 transition-all duration-300"
               >
-                <AnimatedCounter value={stat.value} delay={0.5 + i * 0.1} />
-                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">{stat.label}</p>
+                <AnimatedCounter value={stat.value} delay={0.5 + i * 0.15} />
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
         </div>
 
-        {/* Skills Grid */}
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="mb-16"
-        >
-          <motion.h3
-            variants={fadeInUp}
-            custom={0}
-            className="text-2xl font-bold text-slate-900 dark:text-white text-center mb-10"
-          >
+        {/* ── Skills ─────────────────────────────────────────────── */}
+        <motion.div initial="hidden" animate={inView ? "visible" : "hidden"} className="mb-16">
+          <motion.h3 variants={fadeInUp} custom={0} className="text-2xl font-bold text-slate-900 dark:text-white text-center mb-10">
             O que eu <span className="gradient-text">faço</span>
           </motion.h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {siteConfig.skills.map((skill, i) => {
-              const Icon = iconMap[skill.icon] || Code;
+              const Icon = iconMap[skill.icon] ?? Code;
               return (
                 <motion.div
                   key={skill.name}
@@ -163,7 +172,7 @@ export default function About() {
                       <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{skill.description}</p>
                       <div className="flex flex-wrap gap-1.5">
                         {skill.techs.map((tech) => (
-                          <span key={tech} className="text-xs px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400">
+                          <span key={tech} className="text-xs px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 font-medium">
                             {tech}
                           </span>
                         ))}
@@ -176,29 +185,25 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* Technologies */}
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="text-center"
-        >
+        {/* ── Tech chips ──────────────────────────────────────────── */}
+        <motion.div initial="hidden" animate={inView ? "visible" : "hidden"} className="text-center">
           <motion.h3 variants={fadeInUp} custom={0} className="text-2xl font-bold text-slate-900 dark:text-white mb-8">
             Tecnologias que <span className="gradient-text">domino</span>
           </motion.h3>
-          <motion.div variants={fadeInUp} custom={1} className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-3">
             {siteConfig.technologies.map((tech, i) => (
               <motion.span
                 key={tech}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.4 + i * 0.04, duration: 0.3 }}
+                transition={{ delay: 0.3 + i * 0.04, duration: 0.3 }}
                 whileHover={{ scale: 1.08, y: -2 }}
                 className="tech-chip cursor-default"
               >
                 {tech}
               </motion.span>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

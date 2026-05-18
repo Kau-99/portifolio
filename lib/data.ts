@@ -6,12 +6,11 @@
 
 export const siteConfig = {
   // ── IDENTIDADE ──────────────────────────────────────────────
-  name: "Seu Nome",                       // ← Seu nome completo
-  initials: "SN",                         // ← Iniciais para o logo
+  name: "Kauã Honorato",
+  initials: "KH",
   title: "Desenvolvedor Full Stack",      // ← Seu título profissional
   subtitle: "Transformo ideias em experiências digitais incríveis",
   bio: "Sou um desenvolvedor apaixonado por criar soluções digitais elegantes e funcionais. Com foco em performance, acessibilidade e design moderno, entrego produtos que realmente fazem a diferença para os meus clientes.",
-  // ← Avatar: coloque sua foto em /public/avatar.jpg
   avatar: "/avatar.jpg",
 
   // ── CONTATO ─────────────────────────────────────────────────
@@ -217,7 +216,7 @@ export const siteConfig = {
 
   // ── SEO ─────────────────────────────────────────────────────
   seo: {
-    title: "Seu Nome | Desenvolvedor Full Stack",
+    title: "Kauã Honorato | Desenvolvedor Full Stack",
     description:
       "Portfólio profissional — desenvolvedor Full Stack especializado em React, Next.js e Node.js. Transformo ideias em produtos digitais de alta qualidade.",
     keywords:

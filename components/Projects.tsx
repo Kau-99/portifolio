@@ -29,7 +29,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       className="group relative glass-card rounded-2xl overflow-hidden
                  hover:border-violet-400/50 dark:hover:border-violet-400/40
                  hover:shadow-xl hover:shadow-violet-500/10
-                 transition-all duration-400 hover:-translate-y-2"
+                 transition-all duration-300 hover:-translate-y-2"
     >
       {/* Project image */}
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-violet-900/30 to-slate-900/50 dark:from-violet-900/50 dark:to-slate-900/80">
