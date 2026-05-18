@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -10,19 +10,39 @@ const inter = Inter({
   display: "swap",
 });
 
+// Garante que a URL base seja sempre válida, mesmo com placeholder
+function getSiteUrl() {
+  try {
+    return new URL(siteConfig.seo.url);
+  } catch {
+    return new URL("https://seusite.netlify.app");
+  }
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)",  color: "#07071a" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
+};
+
 export const metadata: Metadata = {
   title: siteConfig.seo.title,
   description: siteConfig.seo.description,
   keywords: siteConfig.seo.keywords,
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
-  metadataBase: new URL(siteConfig.seo.url),
+  metadataBase: getSiteUrl(),
   openGraph: {
     type: "website",
     url: siteConfig.seo.url,
     title: siteConfig.seo.title,
     description: siteConfig.seo.description,
     images: [{ url: siteConfig.seo.ogImage, width: 1200, height: 630 }],
+    locale: "pt_BR",
+    siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
@@ -33,7 +53,10 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true },
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  alternates: {
+    canonical: siteConfig.seo.url,
   },
 };
 
@@ -44,12 +67,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" suppressHydrationWarning className={inter.variable}>
-      <body className="font-sans">
+      {/*
+        suppressHydrationWarning no <html> é necessário: next-themes injeta
+        um script inline que adiciona a classe "dark"/"light" antes da hidratação
+        React, evitando FOUC. O React vê uma divergência server/client na classe
+        e o suppressHydrationWarning diz para ignorá-la silenciosamente.
+      */}
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
-          disableTransitionOnChange={false}
+          disableTransitionOnChange
         >
           {children}
         </ThemeProvider>

@@ -206,11 +206,13 @@ export const siteConfig = {
   ],
 
   // ── EMAILJS (Formulário de Contato) ─────────────────────────
-  // Crie uma conta gratuita em https://www.emailjs.com/
+  // Credenciais lidas de variáveis de ambiente (seguro para git).
+  // Crie um .env.local baseado no .env.local.example.
+  // No Netlify: Site settings → Environment variables.
   emailjs: {
-    serviceId: "YOUR_SERVICE_ID",    // ← Cole seu Service ID
-    templateId: "YOUR_TEMPLATE_ID", // ← Cole seu Template ID
-    publicKey: "YOUR_PUBLIC_KEY",   // ← Cole sua Public Key
+    serviceId:  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "",
+    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
+    publicKey:  process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? "",
   },
 
   // ── SEO ─────────────────────────────────────────────────────
@@ -220,7 +222,9 @@ export const siteConfig = {
       "Portfólio profissional — desenvolvedor Full Stack especializado em React, Next.js e Node.js. Transformo ideias em produtos digitais de alta qualidade.",
     keywords:
       "desenvolvedor full stack, react, next.js, node.js, freelancer, portfolio",
-    url: "https://seusite.com",       // ← URL do seu site
+    // URL lida de env var para que o valor correto seja usado no Netlify.
+    // Defina NEXT_PUBLIC_SITE_URL nas env vars do Netlify.
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://seusite.netlify.app",
     ogImage: "/og-image.png",         // ← Imagem para redes sociais (1200x630)
   },
 };

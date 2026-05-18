@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Instagram, ExternalLink, Sparkles } from "lucide-react";
-import Image from "next/image";
 import { siteConfig } from "@/lib/data";
 import { useTypingEffect } from "@/hooks/useTypingEffect";
 
@@ -25,6 +24,15 @@ const floatingOrbs = [
   { size: 300, x: "70%", y: "60%", color: "from-cyan-500/15 to-transparent", delay: 2 },
   { size: 250, x: "50%", y: "10%", color: "from-purple-500/10 to-transparent", delay: 4 },
 ];
+
+// Posições determinísticas para evitar hydration mismatch (Math.random() difere entre server e client)
+const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  left: `${((i * 17 + 31) % 100).toFixed(1)}%`,
+  top: `${((i * 23 + 7) % 100).toFixed(1)}%`,
+  duration: 4 + (i % 5),
+  delay: parseFloat(((i * 0.3) % 6).toFixed(2)),
+}));
 
 export default function Hero() {
   const { displayText, isTyping } = useTypingEffect({
@@ -72,8 +80,7 @@ export default function Hero() {
     <section
       id="inicio"
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden
-                 animated-gradient-bg dark:animated-gradient-bg light:animated-gradient-bg-light"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Background — dark */}
       <div className="absolute inset-0 dark:block hidden">
@@ -97,27 +104,15 @@ export default function Hero() {
         />
       ))}
 
-      {/* Particles */}
+      {/* Particles — posições determinísticas para evitar hydration mismatch */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {PARTICLES.map((p) => (
           <motion.div
-            key={i}
+            key={p.id}
             className="absolute w-1 h-1 rounded-full bg-violet-400/40 dark:bg-violet-400/30"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0, 0.7, 0],
-              scale: [0, 1, 0],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 6,
-              ease: "easeInOut",
-            }}
+            style={{ left: p.left, top: p.top }}
+            animate={{ y: [0, -30, 0], opacity: [0, 0.7, 0], scale: [0, 1, 0] }}
+            transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "easeInOut" }}
           />
         ))}
       </div>

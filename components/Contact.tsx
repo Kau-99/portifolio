@@ -60,9 +60,19 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const emailjsConfigured =
+    !!siteConfig.emailjs.serviceId &&
+    !!siteConfig.emailjs.templateId &&
+    !!siteConfig.emailjs.publicKey;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
+    if (!emailjsConfigured) {
+      // Redireciona para e-mail direto quando EmailJS não está configurado
+      window.location.href = `mailto:${siteConfig.email}?subject=Contato via portfólio — ${formData.name}&body=${encodeURIComponent(formData.message)}`;
+      return;
+    }
 
     setFormState("loading");
     try {
@@ -115,28 +125,34 @@ export default function Contact() {
             {/* Contact info cards */}
             {contactInfo.map((item, i) => {
               const Icon = item.icon;
-              const Wrapper = item.href ? "a" : "div";
+              const cardClass = cn(
+                "flex items-start gap-4 p-5 glass-card rounded-2xl transition-all duration-200",
+                item.href && "hover:border-violet-400/50 dark:hover:border-violet-400/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/10"
+              );
+              const inner = (
+                <>
+                  <div className="p-2.5 rounded-xl bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400 flex-shrink-0">
+                    <Icon size={18} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-500 uppercase tracking-wide mb-0.5">
+                      {item.label}
+                    </p>
+                    <p className="text-slate-800 dark:text-slate-200 font-medium text-sm">
+                      {item.value}
+                    </p>
+                  </div>
+                </>
+              );
               return (
                 <motion.div key={item.label} variants={fadeInUp} custom={i * 0.1}>
-                  <Wrapper
-                    {...(item.href ? { href: item.href, target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className={cn(
-                      "flex items-start gap-4 p-5 glass-card rounded-2xl transition-all duration-200",
-                      item.href && "hover:border-violet-400/50 dark:hover:border-violet-400/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/10"
-                    )}
-                  >
-                    <div className="p-2.5 rounded-xl bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400 flex-shrink-0">
-                      <Icon size={18} />
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-slate-500 dark:text-slate-500 uppercase tracking-wide mb-0.5">
-                        {item.label}
-                      </p>
-                      <p className="text-slate-800 dark:text-slate-200 font-medium text-sm">
-                        {item.value}
-                      </p>
-                    </div>
-                  </Wrapper>
+                  {item.href ? (
+                    <a href={item.href} target="_blank" rel="noopener noreferrer" className={cardClass}>
+                      {inner}
+                    </a>
+                  ) : (
+                    <div className={cardClass}>{inner}</div>
+                  )}
                 </motion.div>
               );
             })}
@@ -177,6 +193,16 @@ export default function Contact() {
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                 Envie uma mensagem
               </h3>
+
+              {!emailjsConfigured && (
+                <div className="flex items-start gap-2 p-3 mb-5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-amber-700 dark:text-amber-400 text-xs">
+                  <AlertCircle size={14} className="mt-0.5 flex-shrink-0" />
+                  <span>
+                    EmailJS não configurado — o botão vai abrir seu cliente de e-mail.
+                    Configure as variáveis <code className="font-mono">NEXT_PUBLIC_EMAILJS_*</code> no Netlify para envio automático.
+                  </span>
+                </div>
+              )}
 
               {formState === "success" ? (
                 <motion.div

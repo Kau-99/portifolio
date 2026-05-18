@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, Layers } from "lucide-react";
-import Image from "next/image";
 import { siteConfig, type Project } from "@/lib/data";
 import { cn } from "@/lib/utils";
 

@@ -13,28 +13,16 @@ const iconMap: Record<string, React.ElementType> = {
 function AnimatedCounter({ value, delay }: { value: string; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
-  const numericPart = value.replace(/\D/g, "");
-  const suffix = value.replace(/\d/g, "");
 
   return (
     <div ref={ref}>
       <motion.span
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.3, delay }}
+        initial={{ opacity: 0, y: 8 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5, delay, ease: "easeOut" }}
         className="text-3xl lg:text-4xl font-black gradient-text"
       >
-        {inView ? (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay }}
-          >
-            {numericPart}{suffix}
-          </motion.span>
-        ) : (
-          <span className="opacity-0">{value}</span>
-        )}
+        {value}
       </motion.span>
     </div>
   );
