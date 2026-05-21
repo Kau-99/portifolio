@@ -1,213 +1,198 @@
 // ================================================================
-//  ARQUIVO DE CONFIGURAÇÃO DO PORTFÓLIO
+//  ARQUIVO DE CONFIGURAÇÃO DO PORTFÓLIO — Kauã Honorato
 //  Edite este arquivo para personalizar todo o conteúdo do site.
-//  Não é necessário mexer em nenhum outro arquivo para customizar!
 // ================================================================
 
 export const siteConfig = {
   // ── IDENTIDADE ──────────────────────────────────────────────
-  name: "Kauã Honorato",
+  name:     "Kauã Honorato",
   initials: "KH",
-  title: "Desenvolvedor Full Stack",      // ← Seu título profissional
+  title:    "Desenvolvedor Web",
   subtitle: "Transformo ideias em experiências digitais incríveis",
-  bio: "Sou um desenvolvedor apaixonado por criar soluções digitais elegantes e funcionais. Com foco em performance, acessibilidade e design moderno, entrego produtos que realmente fazem a diferença para os meus clientes.",
-  avatar: "/avatar.jpg",
+  bio:      "Sou desenvolvedor apaixonado por criar soluções digitais elegantes e funcionais. Com foco em performance, acessibilidade e design moderno, entrego produtos que fazem a diferença — de sites institucionais a aplicações 3D interativas.",
+  avatar:   "/avatar.jpg",
 
   // ── CONTATO ─────────────────────────────────────────────────
-  email: "seuemail@email.com",            // ← Seu e-mail
-  phone: "+55 (11) 99999-9999",           // ← Seu telefone/WhatsApp
-  location: "São Paulo, Brasil",          // ← Sua localização
+  email:    "kaua.honorato10@gmail.com",
+  phone:    "+55 (XX) XXXXX-XXXX",    // ← Adicione seu telefone/WhatsApp
+  location: "Brasil",
 
   // ── REDES SOCIAIS ───────────────────────────────────────────
   social: {
-    github: "https://github.com/seuusuario",
-    linkedin: "https://linkedin.com/in/seuusuario",
-    instagram: "https://instagram.com/seuusuario",
-    whatsapp: "https://wa.me/5511999999999",  // ← Formato: 55 + DDD + número
+    github:    "https://github.com/Kau-99",
+    linkedin:  "https://linkedin.com/in/kaua-honorato",   // ← Atualize se necessário
+    instagram: "https://instagram.com/kauahon",           // ← Atualize se necessário
+    whatsapp:  "https://wa.me/55XX000000000",             // ← Adicione seu número
   },
 
-  // ── ESTATÍSTICAS (Seção Sobre) ───────────────────────────────
+  // ── ESTATÍSTICAS ────────────────────────────────────────────
   stats: [
-    { label: "Projetos Entregues", value: "50+" },
-    { label: "Clientes Satisfeitos", value: "30+" },
-    { label: "Anos de Experiência", value: "3+" },
-    { label: "Tecnologias", value: "15+" },
+    { label: "Projetos Entregues",   value: "6+"  },
+    { label: "Clientes Atendidos",   value: "4+"  },
+    { label: "Tecnologias",          value: "10+" },
+    { label: "Commits este ano",     value: "50+" },
   ],
 
   // ── HABILIDADES ─────────────────────────────────────────────
-  // Ícones disponíveis: Monitor, Server, Smartphone, Palette,
-  //   Database, Cloud, Code, Globe, Shield, Zap, Layout, Cpu
   skills: [
     {
-      icon: "Monitor",
-      name: "Frontend",
-      description: "Interfaces modernas e responsivas",
-      techs: ["React", "Next.js", "TypeScript", "Tailwind"],
+      icon:        "Monitor",
+      name:        "Frontend",
+      description: "Interfaces modernas, responsivas e acessíveis",
+      techs:       ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
     },
     {
-      icon: "Server",
-      name: "Backend",
-      description: "APIs robustas e escaláveis",
-      techs: ["Node.js", "Python", "REST", "GraphQL"],
+      icon:        "Code",
+      name:        "JavaScript",
+      description: "Interatividade e lógica no navegador",
+      techs:       ["ES6+", "DOM API", "Fetch API", "Web Audio API"],
     },
     {
-      icon: "Smartphone",
-      name: "Mobile",
-      description: "Apps nativos e multiplataforma",
-      techs: ["React Native", "Expo", "Flutter"],
+      icon:        "Globe",
+      name:        "PWA & Performance",
+      description: "Sites rápidos, instaláveis e offline-first",
+      techs:       ["Service Workers", "Manifest", "Cache API", "SEO"],
     },
     {
-      icon: "Database",
-      name: "Banco de Dados",
-      description: "Modelagem e otimização de dados",
-      techs: ["PostgreSQL", "MongoDB", "Redis"],
+      icon:        "Palette",
+      name:        "UI / Design",
+      description: "Design centrado no usuário e na experiência",
+      techs:       ["Figma", "Responsivo", "Animações CSS", "UX"],
     },
     {
-      icon: "Cloud",
-      name: "DevOps / Cloud",
-      description: "Deploy e infraestrutura moderna",
-      techs: ["Docker", "AWS", "Vercel", "CI/CD"],
+      icon:        "Zap",
+      name:        "3D & WebGL",
+      description: "Visualizações interativas no navegador",
+      techs:       ["Three.js", "WebGL", "GLSL", "Post-processing"],
     },
     {
-      icon: "Palette",
-      name: "UI/UX Design",
-      description: "Design centrado no usuário",
-      techs: ["Figma", "Framer", "Prototipagem"],
+      icon:        "Server",
+      name:        "Ferramentas & Deploy",
+      description: "Fluxo de trabalho profissional e publicação",
+      techs:       ["Git", "GitHub", "Netlify", "Vercel"],
     },
   ],
 
-  // ── TECNOLOGIAS (chips na seção Sobre) ──────────────────────
+  // ── TECNOLOGIAS ─────────────────────────────────────────────
   technologies: [
-    "React", "Next.js", "TypeScript", "Node.js", "TailwindCSS",
-    "PostgreSQL", "MongoDB", "Docker", "AWS", "Git",
-    "Figma", "Python", "Prisma", "Stripe", "Vercel",
+    "HTML5", "CSS3", "JavaScript", "TypeScript",
+    "Bootstrap 5", "Three.js", "PWA",
+    "Git", "GitHub", "Netlify", "Figma",
+    "Web Audio API", "JSON", "REST API",
   ],
 
   // ── PROJETOS ────────────────────────────────────────────────
-  // category: "web" | "mobile" | "design" | "api"
-  // Coloque as imagens em /public/projects/nome-do-projeto.png
+  // Adicione screenshots em /public/projects/<nome>.png
   projects: [
     {
       id: 1,
-      title: "E-commerce Platform",
-      description:
-        "Plataforma de e-commerce completa com painel administrativo, pagamentos integrados via Stripe, gestão de estoque e relatórios em tempo real.",
-      image: "/projects/ecommerce.png",   // ← Substitua pela imagem real
-      tags: ["Next.js", "Node.js", "PostgreSQL", "Stripe"],
-      category: "web",
-      liveUrl: "https://seusite.com",
-      githubUrl: "https://github.com/seuusuario/ecommerce",
-      featured: true,
+      title:       "NeuroAtlas — A Mente em 3D",
+      description: "Visualização interativa 3D que mostra como ansiedade e depressão afetam o cérebro humano. Inclui áudio binaural terapêutico, monitoramento neuroquímico em tempo real e ferramentas de respiração guiada.",
+      image:       "/projects/neuroatlas.png",
+      tags:        ["Three.js", "WebGL", "Web Audio API", "JavaScript"],
+      category:    "web",
+      liveUrl:     "",
+      githubUrl:   "https://github.com/Kau-99/neuroatlas",
+      featured:    true,
     },
     {
       id: 2,
-      title: "App de Finanças",
-      description:
-        "Aplicativo mobile para controle financeiro pessoal com gráficos interativos, categorização automática de despesas e metas de economia.",
-      image: "/projects/finance-app.png",
-      tags: ["React Native", "Expo", "Firebase"],
-      category: "mobile",
-      liveUrl: "https://apps.apple.com/app",
-      githubUrl: "https://github.com/seuusuario/finance-app",
-      featured: true,
+      title:       "ADVIC — Site da Igreja",
+      description: "Site institucional completo para a Assembleia de Deus com gestão de conteúdo via JSON, suporte a PWA (instalável no celular), funcionamento offline e área de eventos e sermões.",
+      image:       "/projects/igreja.png",
+      tags:        ["PWA", "JavaScript", "Bootstrap 5", "Service Workers"],
+      category:    "web",
+      liveUrl:     "",
+      githubUrl:   "https://github.com/Kau-99/igreja.5",
+      featured:    true,
     },
     {
       id: 3,
-      title: "Dashboard SaaS",
-      description:
-        "Dashboard analítico para gestão de negócios com métricas em tempo real, relatórios exportáveis e integração com múltiplas fontes de dados.",
-      image: "/projects/dashboard.png",
-      tags: ["React", "TypeScript", "Chart.js", "API REST"],
-      category: "web",
-      liveUrl: "https://dashboard.seusite.com",
-      githubUrl: "https://github.com/seuusuario/dashboard",
-      featured: false,
+      title:       "Studio — Escola de Dança",
+      description: "Site completo para escola de dança com páginas de aulas, professores, blog, agenda de shows e contato. Inclui sitemap, manifest e otimizações de SEO.",
+      image:       "/projects/studio.png",
+      tags:        ["HTML5", "CSS3", "JavaScript", "SEO"],
+      category:    "web",
+      liveUrl:     "",
+      githubUrl:   "https://github.com/Kau-99/Studio",
+      featured:    false,
     },
     {
       id: 4,
-      title: "Landing Page Agency",
-      description:
-        "Landing page de alta conversão para agência de marketing digital com animações avançadas, formulário integrado e otimização SEO.",
-      image: "/projects/landing.png",
-      tags: ["Next.js", "Framer Motion", "TailwindCSS"],
-      category: "web",
-      liveUrl: "https://agency.seusite.com",
-      githubUrl: "https://github.com/seuusuario/landing",
-      featured: false,
+      title:       "Casa de Ração",
+      description: "Site para pet shop / loja de ração com catálogo de produtos, design responsivo e interface amigável para o setor pet.",
+      image:       "/projects/casa-de-racao.png",
+      tags:        ["HTML5", "CSS3", "JavaScript"],
+      category:    "web",
+      liveUrl:     "",
+      githubUrl:   "https://github.com/Kau-99/casa-de-ra-ao",
+      featured:    false,
     },
     {
       id: 5,
-      title: "API de Pagamentos",
-      description:
-        "Microsserviço de pagamentos com suporte a múltiplos gateways, webhook handling, retry automático e dashboard de monitoramento.",
-      image: "/projects/api.png",
-      tags: ["Node.js", "Docker", "Redis", "PostgreSQL"],
-      category: "api",
-      liveUrl: "",
-      githubUrl: "https://github.com/seuusuario/payment-api",
-      featured: false,
+      title:       "Pet Shopping Keila",
+      description: "E-commerce / vitrine digital para petshop com listagem de produtos, categorias e layout moderno focado em conversão.", // ← Atualize com a descrição real
+      image:       "/projects/petshopping.png",
+      tags:        ["HTML5", "CSS3", "JavaScript"],
+      category:    "web",
+      liveUrl:     "",
+      githubUrl:   "https://github.com/Kau-99/petshopping-keila",
+      featured:    false,
     },
     {
       id: 6,
-      title: "Design System",
-      description:
-        "Sistema de design completo com componentes reutilizáveis, tokens de design, documentação interativa e testes de acessibilidade.",
-      image: "/projects/design-system.png",
-      tags: ["Figma", "Storybook", "React", "TypeScript"],
-      category: "design",
-      liveUrl: "https://design.seusite.com",
-      githubUrl: "https://github.com/seuusuario/design-system",
-      featured: false,
+      title:       "App Mídia",
+      description: "Aplicação web de mídia com interface moderna para gerenciar e exibir conteúdo digital.", // ← Atualize com a descrição real
+      image:       "/projects/app-midia.png",
+      tags:        ["HTML5", "CSS3", "JavaScript"],
+      category:    "web",
+      liveUrl:     "",
+      githubUrl:   "https://github.com/Kau-99/app-midia",
+      featured:    false,
     },
   ],
 
   // ── SERVIÇOS ────────────────────────────────────────────────
   services: [
     {
-      icon: "Code2",
-      title: "Desenvolvimento Web",
-      description:
-        "Sites e aplicações web modernas, performáticas e totalmente responsivas, do design ao deploy.",
+      icon:        "Code2",
+      title:       "Desenvolvimento Web",
+      description: "Sites e aplicações web modernas, performáticas e totalmente responsivas, do design ao deploy.",
       features: [
         "Landing Pages de Alta Conversão",
-        "Sistemas Web Completos",
+        "Sites Institucionais e Corporativos",
         "E-commerce e Lojas Virtuais",
-        "APIs e Integrações",
+        "PWA — Instalável no Celular",
       ],
       highlight: true,
     },
     {
-      icon: "Smartphone",
-      title: "Apps Mobile",
-      description:
-        "Aplicativos iOS e Android nativos ou multiplataforma com experiência de usuário excepcional.",
+      icon:        "Zap",
+      title:       "Experiências Interativas",
+      description: "Visualizações 3D, animações e interfaces imersivas que impressionam e engajam o usuário.",
       features: [
-        "React Native / Flutter",
-        "Publicação nas Lojas",
-        "Notificações Push",
-        "Pagamentos In-App",
+        "Visualizações 3D com Three.js",
+        "Animações e Efeitos Especiais",
+        "Dashboards Interativos",
+        "Infográficos Dinâmicos",
       ],
       highlight: false,
     },
     {
-      icon: "BarChart3",
-      title: "Consultoria & Mentoria",
-      description:
-        "Orientação técnica para equipes e projetos, revisão de código e boas práticas de engenharia.",
+      icon:        "Globe",
+      title:       "SEO & Performance",
+      description: "Otimização de sites para buscadores e máxima velocidade de carregamento.",
       features: [
-        "Revisão de Arquitetura",
-        "Code Review",
-        "Mentoria 1:1",
-        "Treinamentos e Workshops",
+        "Otimização de SEO On-Page",
+        "Performance e Core Web Vitals",
+        "Sitemap e Robots.txt",
+        "Análise e Relatório de Resultados",
       ],
       highlight: false,
     },
   ],
 
-  // ── EMAILJS (Formulário de Contato) ─────────────────────────
-  // Credenciais lidas de variáveis de ambiente (seguro para git).
-  // Crie um .env.local baseado no .env.local.example.
-  // No Netlify: Site settings → Environment variables.
+  // ── EMAILJS ─────────────────────────────────────────────────
   emailjs: {
     serviceId:  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "",
     templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
@@ -216,19 +201,14 @@ export const siteConfig = {
 
   // ── SEO ─────────────────────────────────────────────────────
   seo: {
-    title: "Kauã Honorato | Desenvolvedor Full Stack",
-    description:
-      "Portfólio profissional — desenvolvedor Full Stack especializado em React, Next.js e Node.js. Transformo ideias em produtos digitais de alta qualidade.",
-    keywords:
-      "desenvolvedor full stack, react, next.js, node.js, freelancer, portfolio",
-    // URL lida de env var para que o valor correto seja usado no Netlify.
-    // Defina NEXT_PUBLIC_SITE_URL nas env vars do Netlify.
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://seusite.netlify.app",
-    ogImage: "/og-image.png",         // ← Imagem para redes sociais (1200x630)
+    title:       "Kauã Honorato | Desenvolvedor Web",
+    description: "Portfólio de Kauã Honorato — desenvolvedor web especializado em HTML, CSS, JavaScript, Three.js e PWA. Criando experiências digitais únicas.",
+    keywords:    "desenvolvedor web, kauã honorato, three.js, pwa, javascript, html css, freelancer, portfolio",
+    url:         process.env.NEXT_PUBLIC_SITE_URL ?? "https://kaua-honorato.netlify.app",
+    ogImage:     "/og-image.png",
   },
 };
 
-// Tipagens exportadas
 export type Project = (typeof siteConfig.projects)[number];
 export type Service = (typeof siteConfig.services)[number];
-export type Skill = (typeof siteConfig.skills)[number];
+export type Skill   = (typeof siteConfig.skills)[number];

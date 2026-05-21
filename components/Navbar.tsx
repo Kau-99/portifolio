@@ -84,7 +84,7 @@ export default function Navbar() {
         )}
       >
         <div className="container-custom">
-          <nav className="flex items-center justify-between h-16" aria-label="Navegação principal">
+          <nav className="flex items-center justify-between h-16 lg:h-20" aria-label="Navegação principal">
             {/* Logo */}
             <motion.button
               onClick={() => handleNavClick("#inicio")}
@@ -211,7 +211,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.2 }}
-              className="fixed top-16 left-0 right-0 z-40 bg-white dark:bg-[#0d0d20] border-b border-slate-200 dark:border-violet-500/20 shadow-2xl md:hidden"
+              className="fixed top-16 lg:top-20 left-0 right-0 z-40 bg-white dark:bg-[#0d0d20] border-b border-slate-200 dark:border-violet-500/20 shadow-2xl md:hidden"
               role="navigation"
               aria-label="Menu móvel"
             >

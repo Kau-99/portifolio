@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Instagram, ExternalLink, Sparkles } from "lucide-react";
 import Image from "next/image";
@@ -48,6 +48,8 @@ const itemVariants = {
 };
 
 export default function Hero() {
+  const [imgError, setImgError] = useState(false);
+
   const { displayText, isTyping } = useTypingEffect({
     words: typingWords,
     typingSpeed: 75,
@@ -127,10 +129,14 @@ export default function Hero() {
           <div className="flex-1 text-center lg:text-left max-w-2xl">
             {/* Available badge */}
             <motion.div variants={itemVariants} className="inline-flex mb-6">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium text-violet-600 dark:text-violet-400 border border-violet-300/40 dark:border-violet-500/30">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full
+                               bg-violet-600/10 dark:bg-white/5
+                               backdrop-blur-md
+                               border border-violet-400/40 dark:border-violet-400/20
+                               text-sm font-semibold text-violet-700 dark:text-violet-300">
                 <Sparkles size={14} className="animate-pulse-slow" />
                 Disponível para projetos
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true" />
               </span>
             </motion.div>
 
@@ -220,9 +226,13 @@ export default function Hero() {
                   aria-label={label}
                   whileHover={{ scale: 1.15, y: -2 }}
                   whileTap={{ scale: 0.9 }}
-                  className="p-2.5 rounded-xl glass text-slate-600 dark:text-slate-400
+                  className="p-2.5 rounded-xl
+                             bg-violet-600/10 dark:bg-white/5
+                             border border-violet-300/40 dark:border-white/10
+                             text-violet-700 dark:text-slate-400
                              hover:text-violet-600 dark:hover:text-violet-400
-                             hover:border-violet-400/40 transition-all duration-200"
+                             hover:border-violet-400/60 dark:hover:border-violet-400/40
+                             transition-all duration-200"
                 >
                   <Icon size={18} />
                 </motion.a>
@@ -244,16 +254,25 @@ export default function Hero() {
                 className="absolute inset-0 rounded-full border-2 border-dashed border-violet-500/30 animate-spin-slow"
               />
 
-              {/* Photo */}
-              <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-violet-500/40 dark:border-violet-400/30 shadow-2xl shadow-violet-500/20">
-                <Image
-                  src={siteConfig.avatar}
-                  alt={`Foto de ${siteConfig.name}`}
-                  fill
-                  className="object-cover object-top"
-                  priority
-                  sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 384px"
-                />
+              {/* Photo — falls back to initials if avatar.jpg is missing */}
+              <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-violet-500/40 dark:border-violet-400/30 shadow-2xl shadow-violet-500/20 bg-gradient-to-br from-violet-900/50 to-slate-900/80">
+                {imgError ? (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-violet-600/20 via-slate-800/50 to-cyan-600/10">
+                    <span className="text-6xl sm:text-7xl font-black gradient-text select-none">
+                      {siteConfig.initials}
+                    </span>
+                  </div>
+                ) : (
+                  <Image
+                    src={siteConfig.avatar}
+                    alt={`Foto de ${siteConfig.name}`}
+                    fill
+                    className="object-cover object-top"
+                    priority
+                    sizes="(max-width: 640px) 256px, (max-width: 1024px) 320px, 384px"
+                    onError={() => setImgError(true)}
+                  />
+                )}
               </div>
 
               {/* Floating labels */}

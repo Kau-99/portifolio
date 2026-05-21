@@ -20,14 +20,12 @@
 }
 
 @layer base {
-  /* Reset box-sizing only — avoid applying border-color globally which pollutes computed styles */
   *, *::before, *::after {
     box-sizing: border-box;
   }
 
   html {
     scroll-behavior: smooth;
-    /* antialiased is on <body> via layout.tsx className — not duplicated here */
   }
 
   body {
@@ -35,16 +33,16 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Keyboard focus: show ring only for keyboard navigation, not mouse */
+  /* Keyboard-only focus ring — does not interfere with mouse clicks */
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-violet-500;
+    @apply outline-2 outline-offset-2 outline-violet-500 rounded-sm;
   }
 
   ::selection {
     @apply bg-violet-500/30 text-violet-900 dark:text-violet-100;
   }
 
-  /* Custom scrollbar */
+  /* Thin purple scrollbar */
   ::-webkit-scrollbar        { width: 5px; }
   ::-webkit-scrollbar-track  { @apply bg-transparent; }
   ::-webkit-scrollbar-thumb  { @apply bg-violet-500/40 rounded-full; }
@@ -52,17 +50,22 @@
 }
 
 @layer utilities {
-  /* ── Glassmorphism ──────────────────────────────────────── */
+  /* ── Glassmorphism ──────────────────────────────────────────────
+     Light mode: visible frosted panel against colored backgrounds.
+     Dark  mode: translucent dark panel.
+  ---------------------------------------------------------------- */
   .glass {
-    @apply bg-white/10 dark:bg-white/5 backdrop-blur-md
-           border border-white/20 dark:border-white/10;
+    @apply bg-white/30 dark:bg-white/5
+           backdrop-blur-md
+           border border-white/50 dark:border-white/10;
   }
   .glass-card {
-    @apply bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg
-           border border-slate-200/60 dark:border-violet-500/20;
+    @apply bg-white/90 dark:bg-slate-900/80
+           backdrop-blur-lg
+           border border-slate-200 dark:border-violet-500/20;
   }
 
-  /* ── Gradient text — lighter in dark mode for better contrast ── */
+  /* ── Gradient text: vibrant in both modes ─────────────────────── */
   .gradient-text {
     @apply bg-gradient-to-r
            from-violet-600 to-cyan-500
@@ -70,15 +73,11 @@
            bg-clip-text text-transparent;
   }
 
-  /* ── Glow shadows ───────────────────────────────────────── */
-  .glow-violet { box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
-  .glow-cyan   { box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);  }
-
-  /* ── Layout helpers ─────────────────────────────────────── */
+  /* ── Layout helpers ───────────────────────────────────────────── */
   .section-padding  { @apply py-20 lg:py-28; }
   .container-custom { @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8; }
 
-  /* ── Animated gradient backgrounds (Hero) ───────────────── */
+  /* ── Hero backgrounds ─────────────────────────────────────────── */
   .animated-gradient-bg {
     background: linear-gradient(-45deg, #07071a, #0f0a2e, #0a1628, #0d0721);
     background-size: 400% 400%;
@@ -90,15 +89,15 @@
     animation: gradient-x 12s ease infinite;
   }
 
-  /* ── Grid dot pattern overlay ───────────────────────────── */
+  /* ── Grid dot overlay ─────────────────────────────────────────── */
   .grid-pattern {
     background-image:
-      linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
     background-size: 50px 50px;
   }
 
-  /* ── Technology badge chip ───────────────────────────────── */
+  /* ── Tech badge chip ──────────────────────────────────────────── */
   .tech-chip {
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
            bg-violet-100 text-violet-700
@@ -107,9 +106,13 @@
            transition-all duration-200
            hover:bg-violet-200 dark:hover:bg-violet-500/25;
   }
+
+  /* ── Glow shadows ─────────────────────────────────────────────── */
+  .glow-violet { box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
+  .glow-cyan   { box-shadow: 0 0 30px rgba(6, 182, 212, 0.3); }
 }
 
-/* ── Keyframes (outside layers so they apply globally) ──────── */
+/* ── Keyframes ──────────────────────────────────────────────────── */
 @keyframes gradient-x {
   0%, 100% { background-position: 0% 50%; }
   50%       { background-position: 100% 50%; }
@@ -119,4 +122,3 @@
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
 }
-/* NOTE: `float` and `spin-slow` keyframes are defined in tailwind.config.ts — not duplicated here */
