@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, Layers } from "lucide-react";
+import Image from "next/image";
 import { siteConfig, type Project } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +16,8 @@ const categories = [
 ];
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const [hovered, setHovered] = useState(false);
+  const [hovered,  setHovered]  = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   return (
     <motion.article
@@ -33,22 +35,27 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     >
       {/* Project image */}
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-violet-900/30 to-slate-900/50 dark:from-violet-900/50 dark:to-slate-900/80">
-        {/* Placeholder gradient — replace with real Image when you have screenshots */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <Layers size={36} className="text-violet-400/60 mx-auto mb-2" />
-            <span className="text-xs text-slate-400/60">Adicione screenshot</span>
-          </div>
-        </div>
-        {/*
-          When ready, uncomment below and remove the placeholder above:
+        {/* Real image — falls back to placeholder if file is missing */}
+        {!imgError && project.image ? (
           <Image
             src={project.image}
             alt={project.title}
             fill
-            className={cn("object-cover transition-transform duration-500", hovered && "scale-110")}
+            className={cn(
+              "object-cover object-center transition-transform duration-500",
+              hovered && "scale-110"
+            )}
+            onError={() => setImgError(true)}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
-        */}
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <Layers size={36} className="text-violet-400/60 mx-auto mb-2" />
+              <span className="text-xs text-slate-400/60">screenshot em breve</span>
+            </div>
+          </div>
+        )}
 
         {/* Overlay on hover */}
         <motion.div

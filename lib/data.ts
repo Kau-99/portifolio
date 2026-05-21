@@ -110,7 +110,7 @@ export const siteConfig = {
       id: 3,
       title:       "Studio — Escola de Dança",
       description: "Site completo para escola de dança com páginas de aulas, professores, blog, agenda de shows e contato. Inclui sitemap, manifest e otimizações de SEO.",
-      image:       "/projects/studio.png",
+      image:       "/projects/studio.svg",
       tags:        ["HTML5", "CSS3", "JavaScript", "SEO"],
       category:    "web",
       liveUrl:     "",
