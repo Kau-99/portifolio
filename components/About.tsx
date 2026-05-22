@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
   Monitor, Server, Smartphone, Palette, Database, Cloud,
   Code, Globe, Shield, Zap, Github, Linkedin,
@@ -13,31 +13,33 @@ const iconMap: Record<string, React.ElementType> = {
   Code, Globe, Shield, Zap,
 };
 
-// Real counting animation — counts from 0 to target with ease-out
+// Real counting animation — counts from 0 to target with ease-out.
+// Respects prefers-reduced-motion: shows final value immediately if set.
 function AnimatedCounter({ value, delay }: { value: string; delay: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  const numericTarget = parseInt(value.replace(/\D/g, ""), 10) || 0;
-  const suffix = value.replace(/[0-9]/g, "");
+  const ref            = useRef<HTMLSpanElement>(null);
+  const inView         = useInView(ref, { once: true, margin: "-50px" });
+  const reducedMotion  = useReducedMotion();
+  const numericTarget  = parseInt(value.replace(/\D/g, ""), 10) || 0;
+  const suffix         = value.replace(/[0-9]/g, "");
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!inView || numericTarget === 0) return;
+    // Skip animation for users who prefer reduced motion
+    if (reducedMotion) { setCount(numericTarget); return; }
     let raf: number;
-    const duration = 1400;
+    const duration  = 1400;
     const startTime = performance.now();
     const step = (now: number) => {
       const elapsed  = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Cubic ease-out
-      const eased = 1 - Math.pow(1 - progress, 3);
+      const eased    = 1 - Math.pow(1 - progress, 3); // cubic ease-out
       setCount(Math.round(eased * numericTarget));
       if (progress < 1) raf = requestAnimationFrame(step);
     };
-    // Start after the entry animation delay
     const timeout = setTimeout(() => { raf = requestAnimationFrame(step); }, delay * 1000);
     return () => { clearTimeout(timeout); cancelAnimationFrame(raf); };
-  }, [inView, numericTarget, delay]);
+  }, [inView, numericTarget, delay, reducedMotion]);
 
   return (
     <span

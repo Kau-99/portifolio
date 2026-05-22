@@ -33,27 +33,42 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Keyboard-only focus ring — does not interfere with mouse clicks */
+  /* Keyboard-only focus ring — invisible on mouse, visible on keyboard */
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-violet-500 rounded-sm;
+  }
+
+  /* Remove default focus for mouse users without breaking keyboard nav */
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 
   ::selection {
     @apply bg-violet-500/30 text-violet-900 dark:text-violet-100;
   }
 
-  /* Thin purple scrollbar */
+  /* Thin scrollbar */
   ::-webkit-scrollbar        { width: 5px; }
   ::-webkit-scrollbar-track  { @apply bg-transparent; }
   ::-webkit-scrollbar-thumb  { @apply bg-violet-500/40 rounded-full; }
   ::-webkit-scrollbar-thumb:hover { @apply bg-violet-500/70; }
+
+  /* ── Accessibility: respect reduced-motion preference ─────────────
+     Disables CSS animations/transitions for users who prefer it.
+     Framer Motion components also check this via useReducedMotion().
+  ------------------------------------------------------------------ */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration:       0.01ms !important;
+      animation-iteration-count: 1     !important;
+      transition-duration:      0.01ms !important;
+      scroll-behavior:          auto   !important;
+    }
+  }
 }
 
 @layer utilities {
-  /* ── Glassmorphism ──────────────────────────────────────────────
-     Light mode: visible frosted panel against colored backgrounds.
-     Dark  mode: translucent dark panel.
-  ---------------------------------------------------------------- */
+  /* ── Glassmorphism ──────────────────────────────────────────────── */
   .glass {
     @apply bg-white/30 dark:bg-white/5
            backdrop-blur-md
@@ -65,7 +80,7 @@
            border border-slate-200 dark:border-violet-500/20;
   }
 
-  /* ── Gradient text: vibrant in both modes ─────────────────────── */
+  /* ── Gradient text (WCAG contrast-safe in both modes) ────────────── */
   .gradient-text {
     @apply bg-gradient-to-r
            from-violet-600 to-cyan-500
@@ -73,11 +88,11 @@
            bg-clip-text text-transparent;
   }
 
-  /* ── Layout helpers ───────────────────────────────────────────── */
+  /* ── Layout helpers ───────────────────────────────────────────────── */
   .section-padding  { @apply py-20 lg:py-28; }
   .container-custom { @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8; }
 
-  /* ── Hero backgrounds ─────────────────────────────────────────── */
+  /* ── Hero backgrounds ─────────────────────────────────────────────── */
   .animated-gradient-bg {
     background: linear-gradient(-45deg, #07071a, #0f0a2e, #0a1628, #0d0721);
     background-size: 400% 400%;
@@ -89,7 +104,7 @@
     animation: gradient-x 12s ease infinite;
   }
 
-  /* ── Grid dot overlay ─────────────────────────────────────────── */
+  /* ── Grid dot overlay ─────────────────────────────────────────────── */
   .grid-pattern {
     background-image:
       linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
@@ -97,7 +112,7 @@
     background-size: 50px 50px;
   }
 
-  /* ── Tech badge chip ──────────────────────────────────────────── */
+  /* ── Tech badge chip ──────────────────────────────────────────────── */
   .tech-chip {
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
            bg-violet-100 text-violet-700
@@ -107,17 +122,21 @@
            hover:bg-violet-200 dark:hover:bg-violet-500/25;
   }
 
-  /* ── Glow shadows ─────────────────────────────────────────────── */
+  /* ── Glow shadows ─────────────────────────────────────────────────── */
   .glow-violet { box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
   .glow-cyan   { box-shadow: 0 0 30px rgba(6, 182, 212, 0.3); }
+
+  /* ── Minimum touch target (WCAG 2.5.5) — 44×44px ─────────────────── */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
 }
 
-/* ── Keyframes ──────────────────────────────────────────────────── */
+/* ── Keyframes ───────────────────────────────────────────────────────── */
 @keyframes gradient-x {
   0%, 100% { background-position: 0% 50%; }
   50%       { background-position: 100% 50%; }
 }
-
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }

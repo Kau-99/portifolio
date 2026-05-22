@@ -3,6 +3,19 @@
 //  Edite este arquivo para personalizar todo o conteúdo do site.
 // ================================================================
 
+import type {
+  SkillData,
+  ProjectData,
+  ServiceData,
+  StatData,
+  SocialLinks,
+  EmailJSConfig,
+  SeoConfig,
+} from "./types";
+
+// ── Helpers de ambiente (sem fallback inline duplicado) ──────────
+const env = (key: string, fallback = "") => process.env[key] ?? fallback;
+
 export const siteConfig = {
   // ── IDENTIDADE ──────────────────────────────────────────────
   name:     "Kauã Honorato",
@@ -14,24 +27,24 @@ export const siteConfig = {
 
   // ── CONTATO ─────────────────────────────────────────────────
   email:    "kaua.honorato10@gmail.com",
-  phone:    "+55 (XX) XXXXX-XXXX",    // ← Adicione seu telefone/WhatsApp
+  phone:    "+55 (XX) XXXXX-XXXX",
   location: "Brasil",
 
   // ── REDES SOCIAIS ───────────────────────────────────────────
   social: {
     github:    "https://github.com/Kau-99",
-    linkedin:  "https://linkedin.com/in/kaua-honorato",   // ← Atualize se necessário
-    instagram: "https://instagram.com/kauahon",           // ← Atualize se necessário
-    whatsapp:  "https://wa.me/55XX000000000",             // ← Adicione seu número
-  },
+    linkedin:  "https://linkedin.com/in/kaua-honorato",
+    instagram: "https://instagram.com/kauahon",
+    whatsapp:  "https://wa.me/55XX000000000",
+  } satisfies SocialLinks,
 
   // ── ESTATÍSTICAS ────────────────────────────────────────────
   stats: [
-    { label: "Projetos Entregues",   value: "6+"  },
-    { label: "Clientes Atendidos",   value: "4+"  },
-    { label: "Tecnologias",          value: "10+" },
-    { label: "Commits este ano",     value: "50+" },
-  ],
+    { label: "Projetos Entregues", value: "6+"  },
+    { label: "Clientes Atendidos", value: "4+"  },
+    { label: "Tecnologias",        value: "10+" },
+    { label: "Commits este ano",   value: "50+" },
+  ] satisfies StatData[],
 
   // ── HABILIDADES ─────────────────────────────────────────────
   skills: [
@@ -71,7 +84,7 @@ export const siteConfig = {
       description: "Fluxo de trabalho profissional e publicação",
       techs:       ["Git", "GitHub", "Netlify", "Vercel"],
     },
-  ],
+  ] satisfies SkillData[],
 
   // ── TECNOLOGIAS ─────────────────────────────────────────────
   technologies: [
@@ -79,10 +92,9 @@ export const siteConfig = {
     "Bootstrap 5", "Three.js", "PWA",
     "Git", "GitHub", "Netlify", "Figma",
     "Web Audio API", "JSON", "REST API",
-  ],
+  ] satisfies string[],
 
   // ── PROJETOS ────────────────────────────────────────────────
-  // Adicione screenshots em /public/projects/<nome>.png
   projects: [
     {
       id: 1,
@@ -131,7 +143,7 @@ export const siteConfig = {
     {
       id: 5,
       title:       "Pet Shopping Keila",
-      description: "E-commerce / vitrine digital para petshop com listagem de produtos, categorias e layout moderno focado em conversão.", // ← Atualize com a descrição real
+      description: "E-commerce / vitrine digital para petshop com listagem de produtos, categorias e layout moderno focado em conversão.",
       image:       "/projects/petshopping.png",
       tags:        ["HTML5", "CSS3", "JavaScript"],
       category:    "web",
@@ -142,7 +154,7 @@ export const siteConfig = {
     {
       id: 6,
       title:       "App Mídia",
-      description: "Aplicação web de mídia com interface moderna para gerenciar e exibir conteúdo digital.", // ← Atualize com a descrição real
+      description: "Aplicação web de mídia com interface moderna para gerenciar e exibir conteúdo digital.",
       image:       "/projects/app-midia.png",
       tags:        ["HTML5", "CSS3", "JavaScript"],
       category:    "web",
@@ -150,7 +162,7 @@ export const siteConfig = {
       githubUrl:   "https://github.com/Kau-99/app-midia",
       featured:    false,
     },
-  ],
+  ] satisfies ProjectData[],
 
   // ── SERVIÇOS ────────────────────────────────────────────────
   services: [
@@ -158,7 +170,7 @@ export const siteConfig = {
       icon:        "Code2",
       title:       "Desenvolvimento Web",
       description: "Sites e aplicações web modernas, performáticas e totalmente responsivas, do design ao deploy.",
-      features: [
+      features:    [
         "Landing Pages de Alta Conversão",
         "Sites Institucionais e Corporativos",
         "E-commerce e Lojas Virtuais",
@@ -170,7 +182,7 @@ export const siteConfig = {
       icon:        "Zap",
       title:       "Experiências Interativas",
       description: "Visualizações 3D, animações e interfaces imersivas que impressionam e engajam o usuário.",
-      features: [
+      features:    [
         "Visualizações 3D com Three.js",
         "Animações e Efeitos Especiais",
         "Dashboards Interativos",
@@ -182,7 +194,7 @@ export const siteConfig = {
       icon:        "Globe",
       title:       "SEO & Performance",
       description: "Otimização de sites para buscadores e máxima velocidade de carregamento.",
-      features: [
+      features:    [
         "Otimização de SEO On-Page",
         "Performance e Core Web Vitals",
         "Sitemap e Robots.txt",
@@ -190,25 +202,25 @@ export const siteConfig = {
       ],
       highlight: false,
     },
-  ],
+  ] satisfies ServiceData[],
 
   // ── EMAILJS ─────────────────────────────────────────────────
   emailjs: {
-    serviceId:  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID  ?? "",
-    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
-    publicKey:  process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY  ?? "",
-  },
+    serviceId:  env("NEXT_PUBLIC_EMAILJS_SERVICE_ID"),
+    templateId: env("NEXT_PUBLIC_EMAILJS_TEMPLATE_ID"),
+    publicKey:  env("NEXT_PUBLIC_EMAILJS_PUBLIC_KEY"),
+  } satisfies EmailJSConfig,
 
   // ── SEO ─────────────────────────────────────────────────────
   seo: {
     title:       "Kauã Honorato | Desenvolvedor Web",
     description: "Portfólio de Kauã Honorato — desenvolvedor web especializado em HTML, CSS, JavaScript, Three.js e PWA. Criando experiências digitais únicas.",
     keywords:    "desenvolvedor web, kauã honorato, three.js, pwa, javascript, html css, freelancer, portfolio",
-    url:         process.env.NEXT_PUBLIC_SITE_URL ?? "https://kaua-honorato.netlify.app",
+    url:         env("NEXT_PUBLIC_SITE_URL", "https://kaua-honorato.netlify.app"),
     ogImage:     "/og-image.png",
-  },
+  } satisfies SeoConfig,
 };
 
-export type Project = (typeof siteConfig.projects)[number];
-export type Service = (typeof siteConfig.services)[number];
-export type Skill   = (typeof siteConfig.skills)[number];
+// ── Re-exports de tipos (compatibilidade com imports existentes) ──
+export type { ProjectData as Project, ServiceData as Service, SkillData as Skill };
+export type { ProjectCategory, FilterCategory, FormState, ContactFormData } from "./types";

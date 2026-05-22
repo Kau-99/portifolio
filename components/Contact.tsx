@@ -228,51 +228,83 @@ export default function Contact() {
                   </button>
                 </motion.div>
               ) : (
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-                  {/* Name */}
+                <form
+                  ref={formRef}
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
+                  noValidate       /* HTML5 validation bubbles handled by our logic */
+                  aria-label="Formulário de contato"
+                >
+                  {/* Name — WCAG: label.htmlFor matches input.id */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Seu nome *
+                    <label
+                      htmlFor="contact-name"
+                      className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                    >
+                      Seu nome <span aria-hidden="true">*</span>
+                      <span className="sr-only">(obrigatório)</span>
                     </label>
                     <input
+                      id="contact-name"
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      minLength={2}
+                      maxLength={100}
+                      autoComplete="name"
                       placeholder="João Silva"
+                      aria-required="true"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/50 dark:focus:border-violet-400/50 transition-all duration-200"
                     />
                   </div>
 
                   {/* Email */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Seu e-mail *
+                    <label
+                      htmlFor="contact-email"
+                      className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                    >
+                      Seu e-mail <span aria-hidden="true">*</span>
+                      <span className="sr-only">(obrigatório)</span>
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      maxLength={254}
+                      autoComplete="email"
                       placeholder="joao@email.com"
+                      aria-required="true"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/50 dark:focus:border-violet-400/50 transition-all duration-200"
                     />
                   </div>
 
                   {/* Message */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                      Mensagem *
+                    <label
+                      htmlFor="contact-message"
+                      className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+                    >
+                      Mensagem <span aria-hidden="true">*</span>
+                      <span className="sr-only">(obrigatório)</span>
                     </label>
                     <textarea
+                      id="contact-message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      minLength={10}
+                      maxLength={2000}
                       rows={5}
+                      autoComplete="off"
                       placeholder="Olá! Gostaria de conversar sobre um projeto..."
+                      aria-required="true"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/50 dark:focus:border-violet-400/50 transition-all duration-200 resize-none"
                     />
                   </div>
