@@ -100,7 +100,7 @@ export const siteConfig = {
       id: 1,
       title:       "NeuroAtlas — A Mente em 3D",
       description: "Visualização interativa 3D que mostra como ansiedade e depressão afetam o cérebro humano. Inclui áudio binaural terapêutico, monitoramento neuroquímico em tempo real e ferramentas de respiração guiada.",
-      image:       "/projects/neuroatlas.png",
+      image:       "/projects/neuroatlas.svg",
       tags:        ["Three.js", "WebGL", "Web Audio API", "JavaScript"],
       category:    "web",
       liveUrl:     "",

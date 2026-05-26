@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%"   stop-color="#0f0a2e"/>
+      <stop offset="100%" stop-color="#07071a"/>
+    </radialGradient>
+    <radialGradient id="glow-v" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#7c3aed" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#06b6d4" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur-sm">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+    <filter id="blur-lg">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg)"/>
+
+  <!-- Ambient glows -->
+  <ellipse cx="350" cy="250" rx="280" ry="220" fill="url(#glow-v)" filter="url(#blur-lg)"/>
+  <ellipse cx="520" cy="300" rx="180" ry="140" fill="url(#glow-c)" filter="url(#blur-lg)"/>
+
+  <!-- Grid dots (subtle) -->
+  <g opacity="0.12" fill="#a78bfa">
+    <circle cx="100" cy="80"  r="1.5"/><circle cx="200" cy="80"  r="1.5"/><circle cx="300" cy="80"  r="1.5"/>
+    <circle cx="400" cy="80"  r="1.5"/><circle cx="500" cy="80"  r="1.5"/><circle cx="600" cy="80"  r="1.5"/>
+    <circle cx="700" cy="80"  r="1.5"/><circle cx="100" cy="160" r="1.5"/><circle cx="200" cy="160" r="1.5"/>
+    <circle cx="300" cy="160" r="1.5"/><circle cx="500" cy="160" r="1.5"/><circle cx="600" cy="160" r="1.5"/>
+    <circle cx="700" cy="160" r="1.5"/><circle cx="100" cy="340" r="1.5"/><circle cx="200" cy="340" r="1.5"/>
+    <circle cx="600" cy="340" r="1.5"/><circle cx="700" cy="340" r="1.5"/><circle cx="100" cy="420" r="1.5"/>
+    <circle cx="200" cy="420" r="1.5"/><circle cx="300" cy="420" r="1.5"/><circle cx="400" cy="420" r="1.5"/>
+    <circle cx="500" cy="420" r="1.5"/><circle cx="600" cy="420" r="1.5"/><circle cx="700" cy="420" r="1.5"/>
+  </g>
+
+  <!-- Neural network connections (background, faint) -->
+  <g stroke="#7c3aed" stroke-width="0.8" opacity="0.25">
+    <line x1="160" y1="190" x2="280" y2="155"/><line x1="280" y1="155" x2="400" y2="180"/>
+    <line x1="400" y1="180" x2="520" y2="145"/><line x1="520" y1="145" x2="630" y2="175"/>
+    <line x1="160" y1="190" x2="210" y2="280"/><line x1="210" y1="280" x2="310" y2="260"/>
+    <line x1="310" y1="260" x2="400" y2="310"/><line x1="400" y1="310" x2="490" y2="270"/>
+    <line x1="490" y1="270" x2="590" y2="290"/><line x1="590" y1="290" x2="650" y2="250"/>
+    <line x1="280" y1="155" x2="310" y2="260"/><line x1="400" y1="180" x2="400" y2="310"/>
+    <line x1="520" y1="145" x2="490" y2="270"/><line x1="630" y1="175" x2="650" y2="250"/>
+    <line x1="210" y1="280" x2="240" y2="370"/><line x1="400" y1="310" x2="390" y2="390"/>
+    <line x1="590" y1="290" x2="610" y2="370"/>
+  </g>
+  <g stroke="#06b6d4" stroke-width="0.8" opacity="0.2">
+    <line x1="160" y1="190" x2="310" y2="260"/><line x1="280" y1="155" x2="490" y2="270"/>
+    <line x1="400" y1="180" x2="590" y2="290"/><line x1="310" y1="260" x2="490" y2="270"/>
+    <line x1="240" y1="370" x2="390" y2="390"/><line x1="390" y1="390" x2="610" y2="370"/>
+  </g>
+
+  <!-- Brain outline (simplified, stylised) -->
+  <g filter="url(#glow)">
+    <!-- Left hemisphere -->
+    <path d="M 255 185
+             C 220 168, 185 172, 168 198
+             C 152 224, 155 255, 162 275
+             C 170 298, 178 318, 188 330
+             C 200 345, 218 350, 238 348
+             C 255 346, 268 338, 275 325
+             C 282 312, 282 295, 278 278
+             C 285 270, 292 258, 290 242
+             C 288 225, 278 210, 265 198 Z"
+          fill="none" stroke="#a78bfa" stroke-width="2.5" opacity="0.7"/>
+    <!-- Right hemisphere -->
+    <path d="M 295 185
+             C 310 168, 335 158, 362 162
+             C 392 167, 418 178, 435 198
+             C 452 218, 458 245, 452 268
+             C 448 285, 438 302, 430 318
+             C 418 338, 400 350, 378 352
+             C 358 354, 340 346, 328 332
+             C 316 318, 310 298, 308 278
+             C 302 268, 295 255, 296 240
+             C 297 222, 295 200, 295 185 Z"
+          fill="none" stroke="#a78bfa" stroke-width="2.5" opacity="0.7"/>
+    <!-- Center split -->
+    <line x1="275" y1="185" x2="280" y2="348" stroke="#c4b5fd" stroke-width="1.5" opacity="0.5"/>
+    <!-- Frontal lobe suggestion -->
+    <path d="M 230 185 C 245 165, 265 158, 285 160 C 305 158, 325 165, 330 182"
+          fill="none" stroke="#c4b5fd" stroke-width="1.5" opacity="0.5"/>
+    <!-- Temporal folds -->
+    <path d="M 168 230 C 178 222, 190 228, 188 240" fill="none" stroke="#c4b5fd" stroke-width="1.2" opacity="0.4"/>
+    <path d="M 165 262 C 175 254, 188 260, 186 272" fill="none" stroke="#c4b5fd" stroke-width="1.2" opacity="0.4"/>
+    <path d="M 430 228 C 440 220, 452 226, 450 238" fill="none" stroke="#c4b5fd" stroke-width="1.2" opacity="0.4"/>
+  </g>
+
+  <!-- Neural nodes — active synapses -->
+  <g filter="url(#glow)">
+    <!-- Primary nodes (violet) -->
+    <circle cx="220" cy="220" r="7" fill="#7c3aed" opacity="0.9"/>
+    <circle cx="310" cy="200" r="6" fill="#7c3aed" opacity="0.9"/>
+    <circle cx="390" cy="215" r="8" fill="#8b5cf6" opacity="1"/>
+    <circle cx="270" cy="295" r="6" fill="#7c3aed" opacity="0.85"/>
+    <circle cx="360" cy="305" r="7" fill="#7c3aed" opacity="0.9"/>
+    <circle cx="240" cy="340" r="5" fill="#a78bfa" opacity="0.8"/>
+    <circle cx="360" cy="340" r="5" fill="#a78bfa" opacity="0.8"/>
+    <!-- Secondary nodes (cyan) -->
+    <circle cx="245" cy="258" r="5" fill="#06b6d4" opacity="0.85"/>
+    <circle cx="340" cy="252" r="6" fill="#06b6d4" opacity="0.85"/>
+    <circle cx="305" cy="328" r="5" fill="#22d3ee" opacity="0.8"/>
+    <!-- Small satellites -->
+    <circle cx="195" cy="245" r="3.5" fill="#a78bfa" opacity="0.7"/>
+    <circle cx="200" cy="300" r="3"   fill="#a78bfa" opacity="0.6"/>
+    <circle cx="410" cy="270" r="3.5" fill="#a78bfa" opacity="0.7"/>
+    <circle cx="285" cy="175" r="3"   fill="#c4b5fd" opacity="0.6"/>
+    <circle cx="350" cy="180" r="3"   fill="#c4b5fd" opacity="0.6"/>
+  </g>
+
+  <!-- Connection sparks between nodes -->
+  <g stroke-width="1.2" opacity="0.6">
+    <line x1="220" y1="220" x2="245" y2="258" stroke="#8b5cf6"/>
+    <line x1="245" y1="258" x2="270" y2="295" stroke="#8b5cf6"/>
+    <line x1="310" y1="200" x2="340" y2="252" stroke="#8b5cf6"/>
+    <line x1="340" y1="252" x2="360" y2="305" stroke="#8b5cf6"/>
+    <line x1="390" y1="215" x2="340" y2="252" stroke="#06b6d4"/>
+    <line x1="390" y1="215" x2="410" y2="270" stroke="#06b6d4"/>
+    <line x1="270" y1="295" x2="305" y2="328" stroke="#7c3aed"/>
+    <line x1="360" y1="305" x2="305" y2="328" stroke="#7c3aed"/>
+    <line x1="270" y1="295" x2="240" y2="340" stroke="#a78bfa"/>
+    <line x1="360" y1="305" x2="360" y2="340" stroke="#a78bfa"/>
+    <line x1="220" y1="220" x2="195" y2="245" stroke="#c4b5fd"/>
+    <line x1="245" y1="258" x2="200" y2="300" stroke="#c4b5fd"/>
+  </g>
+
+  <!-- Right side: stats panel (glassmorphism style) -->
+  <rect x="510" y="145" width="220" height="215" rx="16"
+        fill="#ffffff" fill-opacity="0.04"
+        stroke="#a78bfa" stroke-opacity="0.25" stroke-width="1"/>
+
+  <!-- Panel items -->
+  <g font-family="monospace" font-size="11" fill="#c4b5fd" opacity="0.8">
+    <text x="530" y="172">ANSIEDADE</text>
+    <rect x="530" y="180" width="130" height="6" rx="3" fill="#1e0a3c"/>
+    <rect x="530" y="180" width="96"  height="6" rx="3" fill="#7c3aed" opacity="0.9"/>
+    <text x="666" y="188" font-size="10">74%</text>
+
+    <text x="530" y="212">SEROTONINA</text>
+    <rect x="530" y="220" width="130" height="6" rx="3" fill="#1e0a3c"/>
+    <rect x="530" y="220" width="54"  height="6" rx="3" fill="#06b6d4" opacity="0.9"/>
+    <text x="666" y="228" font-size="10">42%</text>
+
+    <text x="530" y="252">DOPAMINA</text>
+    <rect x="530" y="260" width="130" height="6" rx="3" fill="#1e0a3c"/>
+    <rect x="530" y="260" width="78"  height="6" rx="3" fill="#a78bfa" opacity="0.9"/>
+    <text x="666" y="268" font-size="10">60%</text>
+
+    <text x="530" y="300">CORTISOL</text>
+    <rect x="530" y="308" width="130" height="6" rx="3" fill="#1e0a3c"/>
+    <rect x="530" y="308" width="110" height="6" rx="3" fill="#f472b6" opacity="0.9"/>
+    <text x="666" y="316" font-size="10">85%</text>
+  </g>
+
+  <!-- Breathing guide (small circle) -->
+  <circle cx="630" cy="356" r="22" fill="none" stroke="#7c3aed" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="630" cy="356" r="14" fill="#7c3aed" fill-opacity="0.15" stroke="#a78bfa" stroke-width="1" opacity="0.7"/>
+  <text x="630" y="360" font-family="monospace" font-size="9" fill="#c4b5fd" text-anchor="middle" opacity="0.8">RESPIRE</text>
+
+  <!-- Audio waves (bottom right) -->
+  <g stroke="#06b6d4" stroke-width="1.5" opacity="0.5" stroke-linecap="round">
+    <line x1="540" y1="390" x2="540" y2="410"/>
+    <line x1="552" y1="383" x2="552" y2="417"/>
+    <line x1="564" y1="378" x2="564" y2="422"/>
+    <line x1="576" y1="385" x2="576" y2="415"/>
+    <line x1="588" y1="392" x2="588" y2="408"/>
+  </g>
+  <text x="540" y="438" font-family="monospace" font-size="9" fill="#67e8f9" opacity="0.6">ÁUDIO BINAURAL</text>
+
+  <!-- Title -->
+  <text x="40" y="454" font-family="monospace" font-size="22" font-weight="bold" fill="#a78bfa" letter-spacing="3">NEUROATLAS</text>
+  <text x="40" y="476" font-family="monospace" font-size="11" fill="#7c3aed" opacity="0.7" letter-spacing="2">A MENTE EM 3D  ·  THREE.JS + WEBGL</text>
+</svg>
