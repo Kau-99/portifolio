@@ -7,7 +7,7 @@ import {
   Globe, Zap, Shield,
 } from "lucide-react";
 import { siteConfig } from "@/lib/data";
-import { cn } from "@/lib/utils";
+import { cn, scrollToSection } from "@/lib/utils";
 
 const iconMap: Record<string, React.ElementType> = {
   Code2, Smartphone, BarChart3, Globe, Zap, Shield,
@@ -121,7 +121,7 @@ export default function Services() {
             <motion.button
               whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => scrollToSection("contato")}
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl
                          bg-gradient-to-r from-violet-600 via-violet-500 to-cyan-500
                          text-white font-bold text-base

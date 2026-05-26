@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { siteConfig } from "@/lib/data";
-import { cn } from "@/lib/utils";
+import { cn, scrollToSection } from "@/lib/utils";
 
 const navLinks = [
   { href: "#inicio",   label: "Início" },
@@ -20,7 +20,8 @@ export default function Navbar() {
   const [mobileOpen,     setMobileOpen]     = useState(false);
   const [activeSection,  setActiveSection]  = useState("inicio");
   const [mounted,        setMounted]        = useState(false);
-  const { setTheme, resolvedTheme }         = useTheme(); // `theme` removed — unused
+  const { setTheme, resolvedTheme }         = useTheme();
+  const reducedMotion                       = useReducedMotion();
 
   useEffect(() => setMounted(true), []);
 
@@ -64,8 +65,7 @@ export default function Navbar() {
 
   const handleNavClick = useCallback((href: string) => {
     setMobileOpen(false);
-    const id = href.replace("#", "");
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    scrollToSection(href.replace("#", ""));
   }, []);
 
   const isDark = resolvedTheme === "dark";
@@ -73,9 +73,9 @@ export default function Navbar() {
   return (
     <>
       <motion.header
-        initial={{ y: -80, opacity: 0 }}
+        initial={{ opacity: 0, y: reducedMotion ? 0 : -80 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: reducedMotion ? 0.15 : 0.6, ease: "easeOut" }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled

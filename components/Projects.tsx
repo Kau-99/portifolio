@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { memo, useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, Layers } from "lucide-react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ const categories = [
   { id: "design", label: "Design" },
 ];
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+const ProjectCard = memo(function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [hovered,  setHovered]  = useState(false);
   const [imgError, setImgError] = useState(false);
 
@@ -130,7 +130,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       </div>
     </motion.article>
   );
-}
+});
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -188,6 +188,7 @@ export default function Projects() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
+              aria-pressed={activeCategory === cat.id}
               className={cn(
                 "relative px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300",
                 activeCategory === cat.id

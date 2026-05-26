@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Heart, Github, Linkedin, Instagram, MessageSquare, ArrowUp } from "lucide-react";
 import { siteConfig } from "@/lib/data";
+import { scrollToSection, scrollToTop } from "@/lib/utils";
 
 const navLinks = [
   { href: "#inicio", label: "Início" },
@@ -20,12 +21,6 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
-  const handleNavClick = (href: string) => {
-    const id = href.replace("#", "");
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <footer className="relative bg-slate-50 dark:bg-[#050510] border-t border-slate-200 dark:border-violet-500/10">
@@ -59,7 +54,7 @@ export default function Footer() {
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <button
-                    onClick={() => handleNavClick(link.href)}
+                    onClick={() => scrollToSection(link.href.replace("#", ""))}
                     className="text-sm text-slate-500 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200"
                   >
                     {link.label}

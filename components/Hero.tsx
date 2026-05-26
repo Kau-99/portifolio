@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Instagram, ExternalLink, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { siteConfig } from "@/lib/data";
 import { useTypingEffect } from "@/hooks/useTypingEffect";
+import { scrollToSection } from "@/lib/utils";
 
 const typingWords = [
   "Desenvolvedor Full Stack",
@@ -47,8 +48,15 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const } },
 };
 
+// Reduced-motion variants — fade only, no slide
+const itemVariantsReduced = {
+  hidden:  { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3 } },
+};
+
 export default function Hero() {
   const [imgError, setImgError] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   const { displayText, isTyping } = useTypingEffect({
     words: typingWords,
@@ -57,29 +65,9 @@ export default function Hero() {
     pauseDuration: 2500,
   });
 
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Subtle parallax on mouse move — only the orbs react
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      const { width, height, left, top } = containerRef.current.getBoundingClientRect();
-      const x = ((e.clientX - left) / width  - 0.5) * 20;
-      const y = ((e.clientY - top)  / height - 0.5) * 20;
-      containerRef.current.style.setProperty("--mouse-x", `${x}px`);
-      containerRef.current.style.setProperty("--mouse-y", `${y}px`);
-    };
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  const scrollTo = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-
   return (
     <section
       id="inicio"
-      ref={containerRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* ── Background ─────────────────────────────────────────── */}
@@ -99,8 +87,8 @@ export default function Hero() {
           aria-hidden="true"
           className={`absolute rounded-full bg-gradient-radial ${orb.color} blur-3xl pointer-events-none`}
           style={{ width: orb.size, height: orb.size, left: orb.x, top: orb.y }}
-          animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0.75, 0.4] }}
-          transition={{ duration: 7 + orb.delay, repeat: Infinity, ease: "easeInOut", delay: orb.delay }}
+          animate={reducedMotion ? undefined : { scale: [1, 1.25, 1], opacity: [0.4, 0.75, 0.4] }}
+          transition={reducedMotion ? undefined : { duration: 7 + orb.delay, repeat: Infinity, ease: "easeInOut", delay: orb.delay }}
         />
       ))}
 
@@ -111,8 +99,16 @@ export default function Hero() {
             key={p.id}
             className={`absolute ${p.size} rounded-full bg-violet-400/30 dark:bg-violet-300/20`}
             style={{ left: p.left, top: p.top }}
-            animate={{ y: [0, -32, 0], opacity: [0, 0.6, 0], scale: [0, 1, 0] }}
-            transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "easeInOut" }}
+            animate={
+              reducedMotion
+                ? { opacity: 0.25, y: 0, scale: 1 }
+                : { y: [0, -32, 0], opacity: [0, 0.6, 0], scale: [0, 1, 0] }
+            }
+            transition={
+              reducedMotion
+                ? {}
+                : { duration: p.duration, repeat: Infinity, delay: p.delay, ease: "easeInOut" }
+            }
           />
         ))}
       </div>
@@ -128,7 +124,7 @@ export default function Hero() {
           {/* Text */}
           <div className="flex-1 text-center lg:text-left max-w-2xl">
             {/* Available badge */}
-            <motion.div variants={itemVariants} className="inline-flex mb-6">
+            <motion.div variants={reducedMotion ? itemVariantsReduced : itemVariants} className="inline-flex mb-6">
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full
                                bg-violet-600/10 dark:bg-white/5
                                backdrop-blur-md
@@ -142,7 +138,7 @@ export default function Hero() {
 
             {/* Name */}
             <motion.h1
-              variants={itemVariants}
+              variants={reducedMotion ? itemVariantsReduced : itemVariants}
               className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-4"
             >
               <span className="text-slate-900 dark:text-white">Olá, sou </span>
@@ -151,18 +147,13 @@ export default function Hero() {
 
             {/* Typing effect */}
             <motion.div
-              variants={itemVariants}
+              variants={reducedMotion ? itemVariantsReduced : itemVariants}
               className="h-10 mb-6 flex items-center justify-center lg:justify-start"
               aria-live="polite"
               aria-atomic="true"
             >
               <span className="text-xl sm:text-2xl font-semibold text-slate-600 dark:text-slate-300">
                 {displayText}
-                {/*
-                  Cursor: always visible.
-                  - While typing/deleting (isTyping=true): solid, no animation.
-                  - While paused/word complete (isTyping=false): pulse/blink.
-                */}
                 <span
                   aria-hidden="true"
                   className={`inline-block w-0.5 h-6 ml-0.5 bg-violet-500 align-middle transition-opacity ${
@@ -174,7 +165,7 @@ export default function Hero() {
 
             {/* Subtitle */}
             <motion.p
-              variants={itemVariants}
+              variants={reducedMotion ? itemVariantsReduced : itemVariants}
               className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0"
             >
               {siteConfig.subtitle}. Especializado em criar produtos digitais que combinam
@@ -183,12 +174,12 @@ export default function Hero() {
 
             {/* CTA buttons */}
             <motion.div
-              variants={itemVariants}
+              variants={reducedMotion ? itemVariantsReduced : itemVariants}
               className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-10"
             >
               <motion.button
-                onClick={() => scrollTo("projetos")}
-                whileHover={{ scale: 1.04, y: -2 }}
+                onClick={() => scrollToSection("projetos")}
+                whileHover={reducedMotion ? {} : { scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 className="group flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl
                            bg-gradient-to-r from-violet-600 via-violet-500 to-cyan-500
@@ -200,8 +191,8 @@ export default function Hero() {
                 <ExternalLink size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
               </motion.button>
               <motion.button
-                onClick={() => scrollTo("contato")}
-                whileHover={{ scale: 1.04, y: -2 }}
+                onClick={() => scrollToSection("contato")}
+                whileHover={reducedMotion ? {} : { scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl
                            glass-card text-slate-700 dark:text-slate-200 font-semibold text-base
@@ -213,7 +204,7 @@ export default function Hero() {
 
             {/* Social links */}
             <motion.div
-              variants={itemVariants}
+              variants={reducedMotion ? itemVariantsReduced : itemVariants}
               className="flex items-center gap-3 justify-center lg:justify-start"
             >
               <span className="text-sm text-slate-500 dark:text-slate-500 font-medium">Redes:</span>
@@ -224,7 +215,7 @@ export default function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  whileHover={{ scale: 1.15, y: -2 }}
+                  whileHover={reducedMotion ? {} : { scale: 1.15, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                   className="p-2.5 rounded-xl
                              bg-violet-600/10 dark:bg-white/5
@@ -241,7 +232,7 @@ export default function Hero() {
           </div>
 
           {/* Avatar */}
-          <motion.div variants={itemVariants} className="relative flex-shrink-0">
+          <motion.div variants={reducedMotion ? itemVariantsReduced : itemVariants} className="relative flex-shrink-0">
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
               {/* Outer glow */}
               <div
@@ -277,16 +268,16 @@ export default function Hero() {
 
               {/* Floating labels */}
               <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                animate={reducedMotion ? {} : { y: [0, -8, 0] }}
+                transition={reducedMotion ? {} : { duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 aria-hidden="true"
                 className="absolute -top-2 -right-4 glass-card px-3 py-1.5 rounded-xl text-xs font-bold text-violet-600 dark:text-violet-400 shadow-lg whitespace-nowrap"
               >
                 ✦ Full Stack Dev
               </motion.div>
               <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                animate={reducedMotion ? {} : { y: [0, 8, 0] }}
+                transition={reducedMotion ? {} : { duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 aria-hidden="true"
                 className="absolute -bottom-2 -left-4 glass-card px-3 py-1.5 rounded-xl text-xs font-bold text-cyan-600 dark:text-cyan-400 shadow-lg whitespace-nowrap"
               >
@@ -301,7 +292,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8 }}
-          onClick={() => scrollTo("sobre")}
+          onClick={() => scrollToSection("sobre")}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 group"
           aria-label="Rolar para a próxima seção"
         >
@@ -309,8 +300,8 @@ export default function Hero() {
             Scroll
           </span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            animate={reducedMotion ? {} : { y: [0, 8, 0] }}
+            transition={reducedMotion ? {} : { duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             className="p-1.5 rounded-full border border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-600 group-hover:border-violet-500/50 group-hover:text-violet-500 transition-all duration-200"
           >
             <ArrowDown size={14} />
