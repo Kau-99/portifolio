@@ -143,7 +143,7 @@ export const siteConfig = {
     {
       id: 5,
       title:       "Pet Shopping Keila",
-      description: "E-commerce / vitrine digital para petshop com listagem de produtos, categorias e layout moderno focado em conversão.",
+      description: "Aplicativo profissional para o petshop Smile — interface moderna e intuitiva para gerenciamento de serviços, agendamentos e produtos pet, com foco em usabilidade e experiência do cliente.",
       image:       "/projects/petshopping.png",
       tags:        ["HTML5", "CSS3", "JavaScript"],
       category:    "web",
